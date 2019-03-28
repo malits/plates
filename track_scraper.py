@@ -12,6 +12,7 @@ def get_tracks(start, end):
     sauce = requests.get(url)
     soup = bs.BeautifulSoup(sauce.content, 'html.parser')
 
+    #TODO weed out gym music?
     top_tracks = soup.find_all('span', class_='chartlist-ellipsis-wrap')
     for track in top_tracks:
         print(track.text)
