@@ -1,2 +1,2 @@
 # plates
-Generates top spotify tracks for each month
+Generates a users top tracks for each month
