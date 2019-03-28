@@ -12,7 +12,11 @@ def get_tracks(start, end):
     sauce = requests.get(url)
     soup = bs.BeautifulSoup(sauce.content, 'html.parser')
 
-    p.pprint(soup.find_all('section', id='top-tracks-section'))
+    top_tracks = soup.find_all('span', class_='chartlist-ellipsis-wrap')
+    for track in top_tracks:
+        print(track.text)
+
+
 
 if __name__ == '__main__':
     username = 'maxlitster'
