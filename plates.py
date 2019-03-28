@@ -1,5 +1,6 @@
 import spotipy
 import spotipy.util as util
+import heappq
 
 scopes = "user-read-recently-played playlist-modify-public"
 
@@ -9,7 +10,6 @@ client_id = '8894010073b04654937bb10b7cb4bdd8'
 secret = '66f431a8f8db48c29b0700d15b48b563'
 redirect_url = 'https://localhost:8080'
 #Replace with Web Interface
-
 
 
 if __name__ == '__main__':

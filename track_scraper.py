@@ -2,6 +2,7 @@ import bs4 as bs
 import requests
 import pprint as p
 
+#this uses Last.fm... kinda janky. Want to build my own tracker.
 def get_tracks(start, end):
     username = 'maxlitster'
     start = '2019-02-01'
