@@ -1,12 +1,12 @@
 import bs4 as bs
 import requests
-import pprint as p
+import queue
+import re
 
 #this uses Last.fm... kinda janky. Want to build my own tracker.
-def get_tracks(start, end):
-    username = 'maxlitster'
-    start = '2019-02-01'
-    end = '2019-02-28'
+
+#returns a queue containing a users top 50 last.fm tracks over a certain range of dates
+def get_tracks(username, start, end):
 
     url = "https://www.last.fm/user/{}/library/tracks?from={}&to={}".format(username, start, end)
 
@@ -15,15 +15,15 @@ def get_tracks(start, end):
 
     #TODO weed out gym music?
     top_tracks = soup.find_all('span', class_='chartlist-ellipsis-wrap')
+    tracks = queue.Queue(50)
+
     for track in top_tracks:
-        print(track.text)
+        artist = track.find_all('span', class_='chartlist-artists')[0]
+        song = track.find_all('a', class_='link-block-target')[0]
 
+        name_no_space = re.search('(?<=\n)\w[^\n]*', artist.text)
 
+        item = (name_no_space.group(0), song.text)
+        tracks.put(item)
 
-if __name__ == '__main__':
-    username = 'maxlitster'
-    start = '2019-02-01'
-    end = '2019-02-28'
-    url = "https://www.last.fm/user/{}/library/tracks?from={}&to={}".format(username, start, end)
-
-    get_tracks(start, end)
+    return trackss
