@@ -15,6 +15,11 @@ start = '2019-02-01'
 end = '2019-02-28'
 #Replace with Web Interface
 
+def set_parameters(username, start, end):
+    username = username
+    start = start
+    end = end
+
 #converts a queue of tracks to spotify song ideas
 def tracks_to_ids(track_queue):
     size = track_queue.qsize()
@@ -30,6 +35,7 @@ def tracks_to_ids(track_queue):
                                     limit=1, type='track')
 
         #This is very slow and jank in nature. Need to try to fix
+        #TODO: grab more info in track scraper??
         i = 1
         while not current_track['tracks']['items']:
             if i >= len(song):
@@ -49,19 +55,36 @@ def tracks_to_ids(track_queue):
 
     return ids
 
+#Configures playlist given respective parameters returns playlist id
 def configure_playlist(name, public, description):
-    #TODO change all test parts
-    new_playlist = sp.user_playlist_create(username, 'test', public='True')
+    #TODO can i update description w Spotipy?
+    new_playlist = sp.user_playlist_create(username, name, public='True')
+    #TODO same name playlist check?
     playlist_id = new_playlist['id']
 
-    sp.user_playlist_change_details(username, playlist_id, name='test2')
+    #sp.user_playlist_change_details(username, playlist_id, name='test2')
+    return playlist_id
+
+#adds given tracks to a playlist
+#PLAYLIST refers to a spotify playlist ID
+def create_playlist(playlist, id_list):
+    for id in id_list:
+        sp.user_playlist_add_tracks(username, playlist_id=playlist, tracks=ids)
 
 if __name__ == '__main__':
     token = util.prompt_for_user_token(username, scopes, client_id, secret, redirect_url)
     sp = spotipy.Spotify(auth=token)
 
-    #queue = scrape.get_tracks(username, start, end)
+    set_parameters('maxlitster', '2019-02-01', '2019-02-28')
 
-    #ids = tracks_to_ids(queue)
+    queue = scrape.get_tracks(username, start, end)
 
-    configure_playlist("test", "test", "test")
+    description = '''
+    I was configured by plates, a monthly playlist aggregator!
+    See my source code at github.com/malits/plates!
+    '''
+
+    playlist_id = configure_playlist('Feb 19: The Robots Took Over [PLATES]', True, description)
+    song_ids = tracks_to_ids(queue)
+
+    create_playlist(playlist_id, song_ids)
