@@ -1,3 +1,6 @@
+#Main playlist aggregator
+#Once web tracker is implemented: include a scrape w Last.fm option on init?
+
 import spotipy
 import spotipy.util as util
 import track_scraper as scrape
