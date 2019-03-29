@@ -6,7 +6,7 @@ import spotipy.util as util
 import track_scraper as scrape
 import queue
 
-scopes = "user-read-recently-played playlist-modify-public"
+scopes = "user-read-recently-played playlist-modify-public playlist_modify_private"
 
 #Replace this with a web interface
 username = 'maxlitster'
@@ -78,6 +78,7 @@ if __name__ == '__main__':
     token = util.prompt_for_user_token(username, scopes, client_id, secret, redirect_url)
     sp = spotipy.Spotify(auth=token)
 
+    #TODO: test different dates
     set_parameters('maxlitster', '2019-02-01', '2019-02-28')
 
     queue = scrape.get_tracks(username, start, end)
