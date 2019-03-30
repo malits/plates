@@ -1,12 +1,13 @@
 #Main playlist aggregator
 #Once web tracker is implemented: include a scrape w Last.fm option on init?
+#Compare to spotify MEDIUM_RANGE implementation
 
 import spotipy
 import spotipy.util as util
 import track_scraper as scrape
 import queue
 
-scopes = "user-read-recently-played playlist-modify-public playlist_modify_private"
+scopes = "user-read-recently-played playlist-modify-public playlist-modify-private"
 
 #Replace this with a web interface
 username = 'maxlitster'
@@ -71,8 +72,7 @@ def configure_playlist(name, public, description):
 #adds given tracks to a playlist
 #PLAYLIST refers to a spotify playlist ID
 def create_playlist(playlist, id_list):
-    for id in id_list:
-        sp.user_playlist_add_tracks(username, playlist_id=playlist, tracks=ids)
+    sp.user_playlist_add_tracks(username, playlist_id=playlist, tracks=id_list)
 
 if __name__ == '__main__':
     token = util.prompt_for_user_token(username, scopes, client_id, secret, redirect_url)
